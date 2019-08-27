@@ -94,6 +94,6 @@ function calcularConsumo(e){
     
 }
 function limpiarTodo(){
-    location.reload();
+    //location.reload();
     
 }
