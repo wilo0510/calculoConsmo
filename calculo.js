@@ -82,6 +82,7 @@ function calcularConsumo(e){
             </div>`;
             btnLimpiar.disabled=false;
             document.getElementById('btnLimpiar').addEventListener('click',limpiarTodo);
+            e.preventDefault();
         }
         
        
