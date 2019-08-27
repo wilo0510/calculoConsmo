@@ -1,6 +1,8 @@
 document.getElementById('PeticionUsuario').addEventListener('submit',almacenarUsuario);
 let usuario1;
 let usuario2;
+let btnLimpiar=document.getElementById('btnLimpiar');
+btnLimpiar.disabled=true;
 function almacenarUsuario(e){
     var camposValidos=false;
     
@@ -49,37 +51,49 @@ function calcularConsumo(e){
     
     if(valorRecibo>0 && kwTotales>0 && kwInicial>0 && kwFinal>0)
     {
+        if(kwInicial>kwFinal){
+            alert("El consumo actual debe ser mayor o igual al del mes pasado")
+        }
+        else{
+            let kwUsuario1=kwFinal-kwInicial;
+            let kwUsuario2=kwTotales-kwUsuario1;
+            let valorKw=valorRecibo/kwTotales;
+            let valorUsuario1=valorKw*kwUsuario1;
+            let valorUsuario2=valorKw*kwUsuario2;
+            let btnCalcular=document.getElementById('btnCalcular'); 
+            btnCalcular.disabled=true;
+    
+            let visualizacion=document.getElementById('resultados');
+            visualizacion.innerHTML='';
+            visualizacion.innerHTML+=`
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h1>Valor de cada KW</h1>
+                    <h2> ${valorKw}</h2>
+                    <h1>Kw consumidos por ${usuario1}</h1>
+                    <h2> ${kwUsuario1}</h2>
+                    <h4>Valor de luz correspondiente a ${usuario1} para este mes es de ${valorUsuario1} pesos</h4>
+                    <h1>Kw consumidos por ${usuario2}</h1>
+                    <h2> ${kwUsuario2}</h2>
+                    <h4>Valor de luz correspondiente a ${usuario2} para este mes es de ${valorUsuario2} pesos</h4>
+                    
+    
+                </div>
+            </div>`;
+            btnLimpiar.disabled=false;
+            document.getElementById('btnLimpiar').addEventListener('click',limpiarTodo);
+        }
         
-        let kwUsuario1=kwFinal-kwInicial;
-        let kwUsuario2=kwTotales-kwUsuario1;
-        let valorKw=valorRecibo/kwTotales;
-        let valorUsuario1=valorKw*kwUsuario1;
-        let valorUsuario2=valorKw*kwUsuario2;
-        let btnCalcular=document.getElementById('btnCalcular'); 
-        btnCalcular.disabled=true;
-
-        let visualizacion=document.getElementById('resultados');
-        visualizacion.innerHTML='';
-        visualizacion.innerHTML+=`
-        <div class="card mb-3">
-            <div class="card-body">
-                <h1>Valor de cada KW</h1>
-                <h2> ${valorKw}</h2>
-                <h1>Kw consumidos por ${usuario1}</h1>
-                <h2> ${kwUsuario1}</h2>
-                <h4>Valor de luz correspondiente a ${usuario1} para este mes es de ${valorUsuario1} pesos</h4>
-                <h1>Kw consumidos por ${usuario2}</h1>
-                <h2> ${kwUsuario2}</h2>
-                <h4>Valor de luz correspondiente a ${usuario2} para este mes es de ${valorUsuario2} pesos</h4>
-                
-
-            </div>
-        </div>`;
+       
     }
     else{
         alert("Alguno de los datos ingresados es incorrecto")
     }
 
     
+    
+}
+function limpiarTodo(){
+    location.reload();
     
 }
